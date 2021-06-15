@@ -1,0 +1,12 @@
+{
+  "name": "CQG_employee_task",
+  "version": "1.0.0",
+  "dependencies": {
+  },
+  "scripts": {
+    "watch": "rollup ./src/main.js --file ./build/bundle.js --format es --watch",
+    "build": "tsc  && rollup ./app.js --file ./script/script.js --format iife"
+
+
+  }
+}
