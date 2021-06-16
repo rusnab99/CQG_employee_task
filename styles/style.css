@@ -14,17 +14,47 @@
 
     background-repeat-y: no-repeat;
 
-    background-size: contain;
+    background-size: cover;
 
-    border: white 0.1vw solid;
+    border: #808080 0.1vw solid;
 }
 
 .active {
     opacity: 1;
 }
 
-tr {
-    padding:1px;
+
+
+div#gameField {
+    background: #808080;
+    border: black solid 0.5vw;
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    margin:auto;
 }
 
-table {border-collapse: collapse;}
+.active {
+    opacity: 1;
+}
+table {
+    border-collapse: initial;
+    background:#bbbbbb;
+    border-right: black solid 0.6vw;
+    break-after: avoid;
+}
+
+.data {
+    width: 8vw;
+    display: block;
+}
+
+.data p {
+    width: fit-content;
+    margin: 2vw auto 1vw auto;
+    font-size: 2vw;
+}
+
+p.add {
+    margin: 0 auto;
+}

@@ -49,7 +49,6 @@ export default class Field{
                 line.push(this.field[i][j]);
             feld.push(line);
         }
-        console.log(feld);
         for(let i=0;i<4;i++)
             for(let j=0;j<3;j++)
                 feld[16+i][2+j+player*3]=this.playerCar[i][j];
@@ -84,6 +83,36 @@ emptyRoad(y){
     this.field[y][8]=false;
     this.field[y][9]=this.road[y % 4];
 }
+
+    goCrash(step){
+        let playerCrash=[[true,false,false,true],[false,true,true,false],[false,true,true,false],[true,false,false,true]];
+        this.moveroad();
+        this.field[0] = new Array<boolean>(10);
+        this.field[0][0]=this.road[this.step % 4];
+        this.field[0][1]=false;
+        this.field[0][2]=false;
+        this.field[0][3]=false;
+        this.field[0][4]=false;
+        this.field[0][5]=false;
+        this.field[0][6]=false;
+        this.field[0][7]=false;
+        this.field[0][8]=false;
+        this.field[0][9]=this.road[this.step % 4];
+        let feld =new Array();
+        for(let i=4;i<24;i++)
+        {
+            let line=Array();
+            for(let j=0;j<10;j++)
+                line.push(this.field[i][j]);
+            feld.push(line);
+        }
+        for(let i=0;i<4;i++)
+            for(let j=0;j<4;j++)
+                if(step%2==0)
+                feld[16+i][2+j+this.playerX*3]=playerCrash[i][j];
+                else feld[16+i][2+j+this.playerX*3]=!playerCrash[i][j];
+                return feld;
+    }
 
     gonext(player):[boolean[][],boolean]
     {
