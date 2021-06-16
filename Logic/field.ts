@@ -1,5 +1,5 @@
 
-import {Car} from "../UI/car";
+import Car from "../UI/car";
 
 
 export default class Field{
@@ -10,12 +10,16 @@ export default class Field{
     lastcarX:number;//ряд предыдущей машины
     nextCarY:number;
     nextCarX:number;
+    playerX:number;
+    playerCar:boolean[][];
     step:number;//ряд предыдущей машины
-    constructor() {
+    constructor(player) {
         //казалось бы идущий далее код максимально неправильный и тяжело читаемый, его можно легко обернуть в цикл и все будет красиво.
         //Тем не менее такой подход позволяет сэкономить ресурсы конечного пользователя за счет того что суммарно мы исключили порядка 144 проверок условия цикла
         // и 192 операций инкрементации при создании поля
+        this.playerX=player;
         this.car=Car.getPattern(true);
+        this.playerCar=Car.getPattern(false);
         this.field=new Array(24);
         this.road=new Array(true,true,true,false);
         this.lastcarX=this.rand(1,0);
@@ -23,7 +27,7 @@ export default class Field{
         this.lastcarY=0;
         this.nextCarY=this.rand((this.nextCarX==this.lastcarX?8:12),(this.nextCarX==this.lastcarX?5:8));
     for (let y=0;y<4;y++) {
-        this.generateRoad(y);
+        this.emptyRoad(y);
         this.setcar(y);
     }
         for (let y=4;y<24;y++){
@@ -36,8 +40,20 @@ export default class Field{
         return Math.floor(Math.random() * (max-min+1)+min);
     }
 
-    getRepresentative():boolean[][]{
-       return this.field.slice(4);
+    getRepresentative(player):boolean[][]{
+        let feld =new Array();
+        for(let i=4;i<24;i++)
+        {
+            let line=Array();
+            for(let j=0;j<10;j++)
+                line.push(this.field[i][j]);
+            feld.push(line);
+        }
+        console.log(feld);
+        for(let i=0;i<4;i++)
+            for(let j=0;j<3;j++)
+                feld[16+i][2+j+player*3]=this.playerCar[i][j];
+       return feld;
     }
 
     setcar(y){
@@ -45,14 +61,8 @@ export default class Field{
             this.field[y][2] = this.car[y % 4][0];
             this.field[y][3] = this.car[y % 4][1];
             this.field[y][4] = this.car[y % 4][2];
-            this.field[y][5] = false;
-            this.field[y][6] = false;
-            this.field[y][7] = false;
         } else {
 
-            this.field[y][2] = false;
-            this.field[y][3] = false;
-            this.field[y][4] = false;
             this.field[y][5] = this.car[y % 4][0];
             this.field[y][6] = this.car[y % 4][1];
             this.field[y][7] = this.car[y % 4][2];
@@ -60,13 +70,7 @@ export default class Field{
 
 }
 
-generateRoad(y){
-    this.field[y] = new Array<boolean>(10);
-    this.field[y][0] = this.road[y % 4];
-    this.field[y][1] = false;
-    this.field[y][8] = false;
-    this.field[y][9] = this.road[y % 4];
-}
+
 emptyRoad(y){
     this.field[y] = new Array<boolean>(10);
     this.field[y][0]=this.road[y % 4];
@@ -81,8 +85,9 @@ emptyRoad(y){
     this.field[y][9]=this.road[y % 4];
 }
 
-    gonext():boolean[][]
+    gonext(player):[boolean[][],boolean]
     {
+        this.playerX=player;
         this.moveroad();
         this.field[0] = new Array<boolean>(10);
         this.field[0][0]=this.road[this.step % 4];
@@ -103,19 +108,10 @@ emptyRoad(y){
             this.nextCarY=this.rand((this.nextCarX==this.lastcarX?8:12),(this.nextCarX==this.lastcarX?5:8));
             for (let y=0;y<4;y++) {this.setcar(y);}
         }
-        //if(this.step==0){
-           // if(this.lastcarY>=8){
-           //     this.lastcarX=this.rand(1,0);
-          //      for (let y=0;y<4;y++) {this.generateRoad(y);this.setcar(y);}
-           //     this.lastcarY=0;
-           // }
-           // else
-              //  for (let y=0;y<4;y++) this.emptyRoad(y);
-       // }
         this.step++;
         this.step%=4;
         this.lastcarY++;
-        return this.getRepresentative();
+        return [this.getRepresentative(player),this.isContact()];
     }
 
     moveroad(){
@@ -123,5 +119,10 @@ emptyRoad(y){
         {
             this.field[i]=this.field[i-1];
         }
+    }
+
+    isContact():boolean
+    {
+        return this.field[20][this.playerX==0?4:6]||this.field[21][this.playerX==0?4:6]||this.field[22][this.playerX==0?4:6]||this.field[23][this.playerX==0?3:5];
     }
 }

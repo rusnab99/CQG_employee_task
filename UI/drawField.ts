@@ -15,12 +15,13 @@ export default class DrawField{
                 html+=('<td class="pixel '+(this.field[y][x]?"active":"")+'" id="r'+y+'c'+x+'">*</td>');
             html+=("</tr>");
         }
-        html.concat("</table>");
+        html+=("</table><span id='score'>0</span>");
         this.gameField.innerHTML=html;
     }
     difference: Array<[number,number]>|undefined;
-    update(_field:boolean[][]) {
-        console.log("tyutyi");
+    update(_field:boolean[][],score) {
+        // @ts-ignore
+        document.getElementById('score').innerText=score;
         this.difference = new Array<[number, number]>();
         for (let y = 0; y < 20; y++)
             for (let x = 0; x < 10; x++)

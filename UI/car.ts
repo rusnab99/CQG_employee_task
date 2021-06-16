@@ -1,4 +1,4 @@
-export  class Car{
+export default class Car{
     static getPattern(_isFlipped:boolean):boolean[][]{
         let pattern:boolean[][];
         if(_isFlipped)
@@ -10,7 +10,7 @@ export  class Car{
              pattern=[[false,true,false],
                 [true,true,true],
                 [false,true,false],
-                [true,true,true]];
+                [true,false,true]];
         return pattern;
      }
 }
