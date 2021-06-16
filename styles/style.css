@@ -1,7 +1,30 @@
 .pixel {
-    color: wheat;
+
+    height: 2vw;
+
+    background: url(img/pixel.png);
+
+    width: 2vw;
+
+    padding: 0;
+
+    opacity: 0.5;
+
+    background-repeat-x: no-repeat;
+
+    background-repeat-y: no-repeat;
+
+    background-size: contain;
+
+    border: white 0.1vw solid;
 }
 
 .active {
-    color: black;
+    opacity: 1;
 }
+
+tr {
+    padding:1px;
+}
+
+table {border-collapse: collapse;}

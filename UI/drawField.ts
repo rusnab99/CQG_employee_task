@@ -12,7 +12,7 @@ export default class DrawField{
         for(let y=0;y<20;y++){
             html+="<tr>";
             for(let x=0;x<10;x++)
-                html+=('<td class="pixel '+(this.field[y][x]?"active":"")+'" id="r'+y+'c'+x+'">*</td>');
+                html+=('<td class="pixel '+(this.field[y][x]?"active":"")+'" id="r'+y+'c'+x+'"></td>');
             html+=("</tr>");
         }
         html+=("</table><span id='score'>0</span>");
